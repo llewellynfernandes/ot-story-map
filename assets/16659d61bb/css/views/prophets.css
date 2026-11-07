@@ -1,0 +1,137 @@
+/* Prophets view */
+.scroll {
+  overflow-x:auto;
+  margin-inline:-4px;
+  padding-inline:4px;
+}
+
+.chart {
+  min-width:720px;
+  position:relative;
+}
+
+.axis,.emp {
+  display:grid;
+  grid-template-columns:120px 1fr;
+}
+
+.track {
+  position:relative;
+}
+
+.axis .track {
+  height:26px;
+  border-bottom:1px solid var(--line);
+}
+
+.tick {
+  position:absolute;
+  top:0;
+  transform:translateX(-50%);
+  font-size:.78rem;
+  color:var(--muted);
+  font-variant-numeric:tabular-nums;
+}
+
+.emp .track {
+  height:26px;
+  margin:6px 0 10px;
+}
+
+.ebar {
+  position:absolute;
+  top:0;
+  bottom:0;
+  border-radius:4px;
+  display:flex;
+  align-items:center;
+  padding:0 8px;
+  font-size:.8rem;
+  font-weight:700;
+  overflow:hidden;
+  white-space:nowrap;
+}
+
+.pgroup {
+  display:grid;
+  grid-template-columns:120px 1fr;
+  border-top:1px solid var(--line);
+  padding:8px 0;
+}
+
+.pgroup>span {
+  font-size:.75rem;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-weight:700;
+  color:var(--muted);
+  padding-top:4px;
+}
+
+.prow {
+  position:relative;
+  height:30px;
+}
+
+.pbar {
+  position:absolute;
+  top:3px;
+  height:24px;
+  border-radius:5px;
+  background:color-mix(in srgb,var(--c) 22%,var(--surface));
+  border:1px solid color-mix(in srgb,var(--c) 55%,transparent);
+  font-size:.85rem;
+  padding:0 6px;
+  display:flex;
+  align-items:center;
+  white-space:nowrap;
+  min-width:8px;
+}
+
+.pbar .lbl {
+  position:absolute;
+  left:calc(100% + 6px);
+}
+
+.pbar.wide .lbl {
+  position:static;
+}
+
+.mark {
+  position:absolute;
+  top:0;
+  bottom:0;
+  width:0;
+  border-left:1.5px dashed var(--gold);
+  pointer-events:none;
+}
+
+.markl {
+  position:absolute;
+  bottom:-20px;
+  transform:translateX(-50%);
+  font-size:.72rem;
+  color:var(--gold);
+  white-space:nowrap;
+  font-weight:700;
+}
+
+.note {
+  color:var(--muted);
+  font-size:.88rem;
+  margin-top:28px;
+  max-width:65ch;
+}
+
+/* Dashed turning-point lines drawn over the whole chart */
+.marks {
+  position: absolute;
+  inset: 26px 0 0 0;
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  pointer-events: none;
+}
+
+.marks > div { position: relative; }
+
+.pbar .ref-link { pointer-events: auto; margin-left: 2px; }

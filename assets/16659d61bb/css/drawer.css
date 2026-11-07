@@ -1,0 +1,128 @@
+/* Slide-out menu on the left, opened by the menu button in the header. */
+
+.menu-btn { margin: 2px 2px 0 -8px; }
+
+.drawer-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: var(--scrim);
+}
+
+.drawer {
+  position: fixed;
+  z-index: 41;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: min(330px, 88vw);
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border-right: 1px solid var(--line);
+  box-shadow: 12px 0 40px rgba(10, 14, 22, .2);
+  padding: env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+  transform: translateX(-100%);
+  transition: transform .22s ease;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.drawer.in { transform: none; }
+
+.drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 14px 10px 10px 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.drawer-title {
+  font-family: var(--display);
+  font-size: 1.2rem;
+}
+
+.drawer-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.drawer-tools .seg { margin-top: 0; }
+.drawer-tools .seg button { padding: 5px 12px; font-size: .88rem; letter-spacing: 0; }
+
+.drawer-bible {
+  display: inline-flex;
+  padding: 4px 0;
+  align-items: center;
+  gap: 6px;
+  color: var(--gold);
+  font-weight: 500;
+}
+
+.drawer-bible svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.drawer-list {
+  list-style: none;
+  margin: 0;
+  padding: 8px 0 24px;
+}
+
+.drawer-row {
+  display: flex;
+  align-items: center;
+  padding-right: 10px;
+}
+
+.drawer-row a {
+  flex: 1;
+  padding: 11px 20px;
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 1.02rem;
+  font-weight: 500;
+  border-left: 3px solid transparent;
+}
+
+.drawer-list > li.current > .drawer-row {
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+}
+
+.drawer-list > li.current > .drawer-row a { border-left-color: var(--accent); }
+
+.drawer-row a:hover { background: color-mix(in srgb, var(--ink) 5%, transparent); }
+
+.drawer .expand svg { transition: transform .15s; }
+.drawer .expand[aria-expanded="true"] svg { transform: rotate(90deg); }
+
+.drawer-sub {
+  list-style: none;
+  margin: 0 0 6px;
+  padding: 0 0 0 23px;
+}
+
+.drawer-sub a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 16px 7px 12px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: .94rem;
+  border-left: 1px solid var(--line);
+}
+
+.drawer-sub a:hover { color: var(--ink); }

@@ -1,0 +1,244 @@
+/* Books: big idea, shape, themes and passages for books about ideas more than people. */
+
+.strip-group {
+  align-self: center;
+  margin-right: 2px;
+}
+
+.strip-group:not(:first-child) { margin-left: 10px; }
+
+.group-title {
+  font-size: 1.15rem;
+  color: var(--muted);
+  margin: 28px 0 0;
+}
+
+.book {
+  display: grid;
+  gap: 18px;
+  padding: 22px 0 34px;
+  border-top: 1px solid var(--line);
+  scroll-margin-top: calc(var(--header-h, 130px) + 12px);
+}
+
+.book-group > .book:first-of-type { border-top: 0; padding-top: 10px; }
+
+.book h3.label { margin: 0 0 8px; }
+
+.book-head {
+  display: grid;
+  gap: 2px;
+  justify-items: start;
+}
+
+.book-head h2 {
+  font-size: clamp(1.9rem, 4vw, 2.5rem);
+  line-height: 1.1;
+  border-left: 5px solid var(--c);
+  padding-left: 12px;
+  margin-top: 4px;
+}
+
+.tagline {
+  margin: 4px 0 6px;
+  font-family: var(--scripture);
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--muted);
+}
+
+.read-all { font-size: .95rem; }
+
+.book-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 18px 32px;
+}
+
+@media (max-width: 760px) { .book-grid { grid-template-columns: minmax(0, 1fr); } }
+
+.big-idea ul {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 1.05rem;
+  display: grid;
+  gap: 6px;
+}
+
+.big-idea li::marker { color: var(--c); }
+
+.book-facts p { margin: 0 0 14px; font-size: .95rem; }
+.book-facts .dot { vertical-align: 0; }
+.muted { color: var(--muted); }
+
+.sref { font-size: .9em; }
+
+/* ---------- shape: proportional ribbon + section list ---------- */
+
+.shape {
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.shape-note { margin: 0 0 12px; color: var(--muted); font-size: .92rem; max-width: 70ch; }
+
+.ribbon {
+  display: flex;
+  gap: 2px;
+  height: 18px;
+  margin-bottom: 14px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.ribbon .seg {
+  min-width: 6px;
+  flex-basis: 0;
+  background: color-mix(in srgb, var(--c) var(--shade), var(--surface));
+  border: 0;
+}
+
+.ribbon .seg:hover,
+.ribbon .seg:focus-visible { background: var(--c); }
+
+.sections {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 10px 16px;
+}
+
+.sections li {
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1fr);
+  gap: 10px;
+}
+
+.sections .swatch {
+  width: 10px;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--c) var(--shade), var(--surface));
+}
+
+.sections p { margin: 2px 0; font-size: .9rem; color: var(--muted); }
+.sections .share { font-size: .78rem; color: var(--muted); }
+
+/* ---------- shape: mirror (chiasm) ---------- */
+
+.mirror {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.mirror li {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  margin-left: calc(var(--level, 0) * min(7%, 44px));
+}
+
+.mirror .pair {
+  display: grid;
+  place-items: center;
+  height: 28px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: .85rem;
+  background: color-mix(in srgb, var(--c) 18%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--c) 45%, transparent);
+}
+
+.mrow {
+  padding: 6px 12px;
+  border-left: 3px solid color-mix(in srgb, var(--c) 55%, transparent);
+  background: var(--surface-2);
+  border-radius: 0 8px 8px 0;
+}
+
+.mrow p { margin: 2px 0 0; font-size: .9rem; color: var(--muted); }
+
+.mirror li.center .mrow {
+  background: color-mix(in srgb, var(--c) 16%, var(--surface));
+  border-left-color: var(--c);
+}
+
+.mirror li.center .pair { background: var(--c); color: var(--surface); }
+
+.mirror li.outside {
+  grid-template-columns: minmax(0, 1fr);
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--line);
+}
+
+/* ---------- themes ---------- */
+
+.themes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 12px;
+  margin-top: -6px;
+}
+
+.theme {
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--c);
+  border-radius: 10px;
+  background: var(--surface);
+  display: grid;
+  gap: 6px;
+  align-content: start;
+}
+
+.theme h4 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 1.15rem;
+}
+
+.theme ul { margin: 0; padding-left: 18px; font-size: .93rem; display: grid; gap: 3px; }
+.theme ul li::marker { color: var(--c); }
+
+/* ---------- passages and connections ---------- */
+
+.passages,
+.connects {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.passages li { display: grid; gap: 1px; }
+.passages li span { color: var(--muted); font-size: .92rem; }
+.connects li { padding-left: 14px; position: relative; font-size: .95rem; }
+
+.connects li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .55em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--c);
+}
+
+.credit {
+  margin: 0;
+  font-size: .82rem;
+  color: var(--muted);
+}
+
+.credit a { color: var(--accent); }

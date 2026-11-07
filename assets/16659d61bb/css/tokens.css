@@ -1,0 +1,85 @@
+/* Colors and fonts for the whole site.
+   Era and region colors are generated from content/*.json and injected into
+   the page by the build, as --e-<era> and --w-<region>. */
+:root {
+  --bg: #F1F2EF;
+  --surface: #FBFBF9;
+  --surface-2: #F6F7F3;
+  --ink: #1B2130;
+  --muted: #5B6372;
+  --line: #D3D6D0;
+  --accent: #2C4C9C;
+  --gold: #A87522;
+  --highlight: #F3E3B8;
+  --scrim: rgba(10, 14, 22, .45);
+
+  --good: #2F7D4F;
+  --mixed: #A4741C;
+  --bad: #B23A3A;
+
+  /* Connection types in the graph */
+  --g-family: #6B7385;
+  --g-marriage: #C0457A;
+  --g-kin: #3E8C88;
+  --g-mentor: #2C4C9C;
+  --g-flow: #A87522;
+  --g-peer: #7A5BC0;
+  --g-rival: #B23A3A;
+
+  /* Each stack lists a Latin font, then a Devanagari font for Hindi text. */
+  --display: "Marcellus", "Tiro Devanagari Hindi", "Trajan Pro", Georgia, serif;
+  --body: "Alegreya Sans", "Mukta", "Gill Sans", "Segoe UI", system-ui, sans-serif;
+  --scripture: "Alegreya", "Tiro Devanagari Hindi", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12161F;
+    --surface: #1A1F2B;
+    --surface-2: #161B26;
+    --ink: #E5E7EE;
+    --muted: #9AA2B3;
+    --line: #2D3443;
+    --accent: #93AAF2;
+    --gold: #D9AA55;
+    --highlight: #4A3D1F;
+    --scrim: rgba(0, 0, 0, .55);
+    --good: #6CC08C;
+    --mixed: #E0B25A;
+    --bad: #EE7B7B;
+    --g-family: #8B93A6;
+    --g-marriage: #E77FAC;
+    --g-kin: #5FC0BA;
+    --g-mentor: #93AAF2;
+    --g-flow: #D9AA55;
+    --g-peer: #B39BEB;
+    --g-rival: #EE7B7B;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #12161F;
+  --surface: #1A1F2B;
+  --surface-2: #161B26;
+  --ink: #E5E7EE;
+  --muted: #9AA2B3;
+  --line: #2D3443;
+  --accent: #93AAF2;
+  --gold: #D9AA55;
+  --highlight: #4A3D1F;
+  --scrim: rgba(0, 0, 0, .55);
+  --good: #6CC08C;
+  --mixed: #E0B25A;
+  --bad: #EE7B7B;
+  --g-family: #8B93A6;
+  --g-marriage: #E77FAC;
+  --g-kin: #5FC0BA;
+  --g-mentor: #93AAF2;
+  --g-flow: #D9AA55;
+  --g-peer: #B39BEB;
+  --g-rival: #EE7B7B;
+  color-scheme: dark;
+}
