@@ -1,0 +1,117 @@
+/* Family view */
+.trees {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+  gap:28px 36px;
+  align-items:start;
+}
+
+.tree h3 {
+  font-family:var(--display);
+  font-weight:400;
+  font-size:1.2rem;
+  margin:0;
+}
+
+.tree .src {
+  color:var(--muted);
+  font-size:.85rem;
+  margin:2px 0 12px;
+}
+
+.line {
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+
+.gen {
+  display:grid;
+  grid-template-columns:34px minmax(0,1fr);
+  column-gap:10px;
+  position:relative;
+  padding-bottom:12px;
+}
+
+.gen::before {
+  content:"";
+  position:absolute;
+  left:16px;
+  top:24px;
+  bottom:0;
+  width:2px;
+  background:var(--line);
+}
+
+.gen:last-child::before {
+  display:none;
+}
+
+.gnum {
+  width:34px;
+  height:24px;
+  border-radius:6px;
+  display:grid;
+  place-items:center;
+  font-size:.75rem;
+  font-weight:700;
+  font-variant-numeric:tabular-nums;
+  background:color-mix(in srgb,var(--c) 18%,var(--surface));
+  color:var(--ink);
+  border:1px solid color-mix(in srgb,var(--c) 40%,transparent);
+  position:relative;
+  z-index:1;
+}
+
+.gname {
+  font-weight:700;
+}
+
+.gname.plain {
+  color:var(--ink);
+}
+
+.sp {
+  color:var(--muted);
+  font-weight:400;
+}
+
+.gnote {
+  color:var(--muted);
+  font-size:.85rem;
+}
+
+.sideb {
+  margin-top:4px;
+  font-size:.88rem;
+  color:var(--muted);
+  display:flex;
+  flex-wrap:wrap;
+  gap:4px 8px;
+  align-items:baseline;
+}
+
+.sideb .chip {
+  font-size:.82rem;
+  color:var(--ink);
+}
+
+.groups {
+  display:grid;
+  gap:6px;
+  margin-top:6px;
+}
+
+.groups div {
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  align-items:baseline;
+}
+
+.groups em {
+  font-style:normal;
+  font-size:.8rem;
+  color:var(--muted);
+  min-width:52px;
+}

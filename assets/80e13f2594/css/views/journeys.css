@@ -1,0 +1,413 @@
+/* Journeys: the journey cards, the route overview and the scrolling journey. */
+
+/* ---------- choose a journey ---------- */
+
+.jgroup { margin-top: 22px; }
+
+.jgroup h3.label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px;
+}
+
+.jcards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr));
+  gap: 12px;
+}
+
+.jcard {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 14px 12px 12px;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--c);
+  border-radius: 12px;
+  background: var(--surface);
+  min-width: 0;
+}
+
+.jcard:hover { border-color: color-mix(in srgb, var(--c) 60%, var(--line)); border-left-color: var(--c); }
+
+.jsketch {
+  width: 96px;
+  height: 64px;
+  flex: none;
+  border-radius: 8px;
+  background: var(--map-land);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.jsketch path { fill: none; stroke: var(--c); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.jsketch circle { fill: var(--surface); stroke: var(--c); stroke-width: 2; }
+.jsketch circle.start { fill: var(--c); }
+
+.jcard-text { display: grid; gap: 2px; min-width: 0; }
+
+.jcard-title {
+  font-family: var(--display);
+  font-size: 1.2rem;
+  line-height: 1.15;
+}
+
+.jcard-sum { color: var(--muted); font-size: .92rem; line-height: 1.3; }
+.jcard-meta { font-size: .8rem; color: var(--muted); margin-top: 2px; }
+
+/* ---------- one journey ---------- */
+
+.jback {
+  color: var(--accent);
+  font-size: .95rem;
+  margin-bottom: 10px;
+}
+
+.jhead { display: grid; gap: 4px; justify-items: start; margin-bottom: 14px; }
+
+.jhead .era-tag { display: flex; gap: 6px; align-items: center; }
+
+.jhead h2 {
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  line-height: 1.1;
+  border-left: 5px solid var(--c);
+  padding-left: 12px;
+  margin-top: 4px;
+}
+
+.jsum { margin: 2px 0 0; font-family: var(--scripture); font-style: italic; font-size: 1.12rem; color: var(--muted); }
+.jmeta { margin: 0 0 4px; font-size: .88rem; color: var(--muted); }
+
+.jcredit { margin-top: 18px; font-size: .78rem; color: var(--muted); }
+
+/* ---------- the map ---------- */
+
+.jmap {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--map-sea);
+  font-family: var(--body);
+  isolation: isolate;
+}
+
+.jmap-overview { height: clamp(320px, 62vh, 620px); }
+
+.jm { display: block; position: absolute; inset: 0; touch-action: pan-y; }
+
+.jm-sea { fill: var(--map-sea); }
+.jm-land { fill: var(--map-land); stroke: var(--map-coast); stroke-width: .8; vector-effect: non-scaling-stroke; }
+.jm-lake { fill: var(--map-sea); stroke: var(--map-river); stroke-width: .8; vector-effect: non-scaling-stroke; }
+.jm-river { fill: none; stroke: var(--map-river); stroke-width: 1.4; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+
+.jm .hide { display: none; }
+
+.jm-area {
+  text-anchor: middle;
+  pointer-events: none;
+  paint-order: stroke;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.jm-area.land {
+  fill: color-mix(in srgb, var(--map-ink) 46%, transparent);
+  stroke: var(--map-land);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.jm-area.land.s1 { font-size: 13px; letter-spacing: .22em; }
+:lang(hi) .jm-area.land { letter-spacing: 0; font-size: 13px; }
+
+.jm-area.water,
+.jm-area.river {
+  fill: var(--map-water-ink);
+  stroke: var(--map-sea);
+  font-family: var(--scripture);
+  font-style: italic;
+  font-size: 13px;
+}
+
+.jm-area.river { stroke: var(--map-land); }
+.jm-area .alt { font-size: 10.5px; opacity: .85; }
+
+/* Route */
+.jm-leg {
+  fill: none;
+  stroke: var(--route);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.jm-leg.exile { stroke-dasharray: 7 6; stroke-width: 2.6; }
+.jm-arrow { fill: var(--route); }
+
+.jm-traveler {
+  fill: var(--surface);
+  stroke: var(--route);
+  stroke-width: 3;
+}
+
+/* Places */
+.jm-mark .dot { fill: var(--map-land); stroke: color-mix(in srgb, var(--map-ink) 45%, transparent); stroke-width: 1.5; }
+.jm-mark.visited .dot { fill: var(--route); stroke: var(--surface); stroke-width: 1.5; }
+.jm-mark.debated.visited .dot { fill: var(--map-land); stroke: var(--route); stroke-width: 2.5; stroke-dasharray: 3 2; }
+.jm-mark.region .dot { fill: color-mix(in srgb, var(--route) 12%, transparent); stroke: color-mix(in srgb, var(--route) 55%, transparent); stroke-width: 1.5; stroke-dasharray: 3 3; }
+.jm-mark.region.visited .dot { fill: color-mix(in srgb, var(--route) 22%, transparent); stroke-dasharray: 3 3; stroke-width: 1.5; stroke: var(--route); }
+.jm-mark .halo { fill: var(--route); opacity: 0; }
+.jm-mark.current .halo { opacity: .22; }
+.jm-mark.current .dot { stroke-width: 3; }
+.jm-mark .hit { fill: transparent; cursor: pointer; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .jm-mark.current .halo { animation: jm-pulse 2.2s ease-out infinite; transform-box: fill-box; transform-origin: center; }
+}
+
+@keyframes jm-pulse {
+  0% { transform: scale(.5); opacity: .4; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+.jm-name {
+  fill: var(--map-ink);
+  font-size: 12.5px;
+  font-weight: 500;
+  paint-order: stroke;
+  stroke: var(--map-land);
+  stroke-width: 3.5px;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+.jm-name.future { fill: var(--muted); }
+.jm-name.cur { font-size: 15px; font-weight: 700; stroke-width: 4.5px; }
+
+.jm-scale path { fill: none; stroke: var(--map-ink); stroke-width: 1.5; }
+.jm-scale text { fill: var(--map-ink); font-size: 11px; paint-order: stroke; stroke: var(--map-land); stroke-width: 3px; }
+
+/* Overlays on the map */
+.jm-legend {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 2px 10px;
+  max-width: calc(100% - 140px);
+  padding: 5px 9px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  font-size: .74rem;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.jm-legend span { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+.jm-legend svg { width: 14px; height: 14px; }
+.jm-legend svg[viewBox^="0 0 22"] { width: 22px; }
+.lg-sure { fill: var(--c); }
+.lg-debated { fill: none; stroke: var(--c); stroke-width: 2; stroke-dasharray: 3 2; }
+.lg-travel { stroke: var(--c); stroke-width: 3; }
+.lg-exile { stroke: var(--c); stroke-width: 2.6; stroke-dasharray: 5 4; }
+
+.jm-error {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.jstart-row { display: flex; justify-content: center; margin: 16px 0 8px; }
+.jstart { min-width: 220px; font-size: 1.1rem; }
+
+.jstops {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  counter-reset: none;
+}
+
+.jstops button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px 4px 4px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: .88rem;
+}
+
+.jstops button:hover { border-color: var(--c); }
+
+.jstops .n {
+  display: inline-grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: var(--c);
+  color: var(--surface);
+  font-size: .75rem;
+  font-weight: 700;
+}
+
+/* ---------- travelling: stops scroll past a map that stays put ---------- */
+
+.jview { container-type: inline-size; }
+
+.jtravel {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.25fr);
+  gap: 24px;
+  align-items: stretch;
+}
+
+.jmapcol { order: 2; }
+.jsteps { order: 1; }
+
+.jtravel .jmap {
+  position: sticky;
+  top: calc(var(--header-h, 120px) + 12px);
+  height: calc(100vh - var(--header-h, 120px) - 24px);
+  height: calc(100svh - var(--header-h, 120px) - 24px);
+}
+
+.jm-tools { position: absolute; left: 8px; top: 8px; z-index: 1; }
+
+.btn.small {
+  min-height: 34px;
+  padding: 4px 12px;
+  font-size: .88rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+}
+
+.jm-step-nav {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  z-index: 1;
+  display: grid;
+  gap: 6px;
+}
+
+.jm-step-nav .icon-btn {
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  width: 40px;
+  height: 40px;
+}
+
+.jscroll-hint {
+  margin: 0 0 12vh;
+  color: var(--muted);
+  font-size: .95rem;
+}
+
+.jstep {
+  min-height: 62vh;
+  padding-bottom: 24px;
+}
+
+.jstep-card {
+  display: grid;
+  gap: 8px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--c);
+  border-radius: 12px;
+  background: var(--surface);
+  opacity: .55;
+  transition: opacity .25s ease, box-shadow .25s ease;
+}
+
+.jstep.active .jstep-card {
+  opacity: 1;
+  box-shadow: 0 6px 22px color-mix(in srgb, var(--ink) 10%, transparent);
+}
+
+.jstep h3 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 1.45rem;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.jstep h3 small { font-family: var(--body); font-size: .85rem; color: var(--muted); }
+
+.jstep-text { margin: 0; font-size: 1.08rem; line-height: 1.45; }
+
+.jstep-site {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin: 2px 0 0;
+  font-size: .8rem;
+  color: var(--muted);
+}
+
+.jcert {
+  padding: 0 7px;
+  border-radius: 999px;
+  border: 1px dashed color-mix(in srgb, var(--muted) 70%, transparent);
+  font-weight: 600;
+}
+
+.jcert.likely { border-style: solid; }
+
+.jend {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  margin: 0 0 30vh;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--c) 10%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--c) 35%, var(--line));
+}
+
+.jend h3 { font-family: var(--display); font-weight: 400; font-size: 1.5rem; margin: 0; }
+.jend-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.jend-actions .btn { min-height: 42px; padding: 8px 14px; font-size: .95rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .jstep-card { transition: none; }
+}
+
+/* Narrow (phones, or the Bible panel open): map on top, stops scroll beneath it. */
+@container (max-width: 700px) {
+  .jtravel { display: block; }
+  .jmapcol {
+    position: sticky;
+    top: calc(env(safe-area-inset-top, 0px) + var(--header-h, 110px));
+    z-index: 2;
+    margin: 0 calc(-1 * max(16px, env(safe-area-inset-left, 0px)));
+    padding: 6px max(16px, env(safe-area-inset-left, 0px)) 8px;
+    background: var(--bg);
+  }
+  .jtravel .jmap {
+    position: relative;
+    top: 0;
+    height: 44vh;
+    height: 44svh;
+  }
+  .jscroll-hint { margin: 14px 0 22vh; }
+  .jstep { min-height: 46vh; }
+  .jstep-card { padding: 14px; }
+  .jtravel .jm-legend { display: none; }
+  .jend { margin-bottom: 40vh; }
+}

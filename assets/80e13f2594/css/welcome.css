@@ -1,0 +1,242 @@
+/* Welcome screen (every visit) and the guided tour. Written for first-time,
+   less technical visitors: large text, large buttons, one idea at a time. */
+
+/* ---------- buttons used here ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 10px 20px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 1.02rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.btn:hover { border-color: var(--accent); }
+
+.btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--surface);
+}
+
+.btn.primary:hover { background: color-mix(in srgb, var(--accent) 88%, var(--ink)); }
+
+.btn small { font-weight: 400; opacity: .8; font-size: .82rem; }
+
+/* ---------- welcome screen ---------- */
+
+body.welcome-open { overflow: hidden; }
+
+.welcome {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: max(20px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(20px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+  background:
+    radial-gradient(circle at 20% 10%, color-mix(in srgb, var(--gold) 14%, transparent), transparent 45%),
+    radial-gradient(circle at 85% 90%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 50%),
+    color-mix(in srgb, var(--bg) 94%, transparent);
+  backdrop-filter: blur(6px);
+}
+
+.welcome-card {
+  width: min(560px, 100%);
+  display: grid;
+  gap: 16px;
+  padding: clamp(22px, 5vw, 36px);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--surface);
+  box-shadow: 0 24px 60px rgba(10, 14, 22, .18);
+}
+
+.welcome-card h1 {
+  font-size: clamp(1.8rem, 6vw, 2.4rem);
+  line-height: 1.15;
+  margin-top: -8px;
+}
+
+.welcome-lede {
+  margin: -6px 0 0;
+  font-family: var(--scripture);
+  font-size: 1.15rem;
+  color: var(--muted);
+}
+
+.welcome-lang {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  font-size: .95rem;
+}
+
+.welcome-lang .seg { margin-top: 0; }
+.welcome-lang .seg button { padding: 8px 16px; font-size: .95rem; letter-spacing: 0; }
+
+.welcome-features {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.welcome-features li {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.welcome-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--gold) 14%, var(--surface));
+  color: var(--gold);
+}
+
+.welcome-icon svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.welcome-features b { display: block; font-size: 1.02rem; }
+.welcome-features span { color: var(--muted); font-size: .95rem; }
+
+.welcome-actions {
+  display: grid;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.welcome-foot {
+  margin: 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: .85rem;
+}
+
+/* ---------- guided tour ---------- */
+
+body.tour-open { overflow: hidden; }
+
+.tour-block {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+}
+
+/* The highlight: a clear window cut out of a dark layer */
+.tour-spot {
+  position: fixed;
+  z-index: 101;
+  border-radius: 12px;
+  box-shadow: 0 0 0 3px var(--gold), 0 0 0 200vmax rgba(10, 14, 22, .58);
+  pointer-events: none;
+  transition: top .25s ease, left .25s ease, width .25s ease, height .25s ease;
+}
+
+.tour-card {
+  position: fixed;
+  z-index: 102;
+  width: min(380px, calc(100vw - 24px));
+  display: grid;
+  gap: 10px;
+  padding: 18px 20px;
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, .3);
+}
+
+.tour-card.centered {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@media (max-width: 639px) { .tour-card { width: auto; } }
+
+.tour-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.tour-exit {
+  color: var(--muted);
+  font-size: .9rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  padding: 6px 0;
+}
+
+.tour-card h2 { font-size: 1.45rem; }
+
+.tour-card p {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+.tour-dots {
+  display: flex;
+  gap: 5px;
+}
+
+.tour-dots span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--line);
+}
+
+.tour-dots span.on { background: var(--gold); width: 18px; border-radius: 4px; }
+
+.tour-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.tour-nav .btn { min-height: 44px; padding: 8px 16px; }
+.tour-nav .btn.primary { flex: 1; max-width: 220px; margin-left: auto; }
+
+@media (prefers-reduced-motion: reduce) {
+  .tour-spot { transition: none; }
+}
+
+/* ---------- help button ---------- */
+
+.help-btn {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
+@media (max-width: 420px) {
+  .help-btn { width: 36px; height: 36px; }
+}

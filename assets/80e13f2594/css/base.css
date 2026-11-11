@@ -1,0 +1,386 @@
+/* Page shell: reset, layout with the Bible panel, header and tabs,
+   shared text styles and small components used by every view. */
+
+* { box-sizing: border-box; }
+
+:root {
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  /* Width the Bible panel takes from the page. 0 when closed or on phones. */
+  --reader-space: 0px;
+}
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  z-index: 10;
+  background: var(--surface);
+}
+
+[hidden] { display: none !important; }
+
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- layout ---------- */
+
+.page {
+  margin-right: var(--reader-space);
+  min-width: 0;
+}
+
+.wrap {
+  max-width: 980px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+/* With the Bible open the page is narrower, so drop the right safe-area gutter. */
+body.reader-open .wrap { padding-right: 20px; }
+
+main .wrap { padding-block: 20px 60px; }
+
+/* ---------- header ---------- */
+
+header {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 5;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+header .wrap { padding-block: 14px 0; }
+
+.masthead {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.masthead-text { flex: 1; min-width: 0; }
+
+.masthead-actions {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.lang-switch { margin-top: 0; }
+.lang-switch button { padding: 6px 10px; }
+
+h1 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 4vw, 2.1rem);
+  margin: 0;
+  letter-spacing: .02em;
+  text-wrap: balance;
+}
+
+.sub {
+  color: var(--muted);
+  font-size: .9rem;
+  margin: 2px 0 10px;
+}
+
+.bible-toggle {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  font-weight: 500;
+}
+
+.bible-toggle svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.bible-toggle:hover { border-color: var(--gold); }
+
+.bible-toggle[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--gold) 16%, var(--surface));
+  border-color: var(--gold);
+}
+
+@media (max-width: 620px) {
+  .bible-toggle span { display: none; }
+  .bible-toggle { padding: 9px; }
+  .masthead-actions { gap: 6px; }
+}
+
+@media (max-width: 420px) {
+  .masthead .sub { display: none; }
+}
+
+#tabs {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+#tabs::-webkit-scrollbar { display: none; }
+
+#tabs a {
+  flex: none;
+  padding: 8px 12px 10px;
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 3px solid transparent;
+  font-size: .95rem;
+}
+
+#tabs a[aria-current="page"] {
+  color: var(--ink);
+  border-color: var(--accent);
+}
+
+/* ---------- text ---------- */
+
+h2 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 1.5rem;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.lede {
+  color: var(--muted);
+  margin: 4px 0 18px;
+  max-width: 65ch;
+  font-size: .95rem;
+}
+
+.label {
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.num { font-variant-numeric: tabular-nums; }
+
+/* ---------- controls ---------- */
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: var(--muted);
+  flex: none;
+}
+
+.icon-btn:hover {
+  color: var(--ink);
+  background: color-mix(in srgb, var(--ink) 7%, transparent);
+}
+
+.icon-btn:disabled { opacity: .35; cursor: default; background: none; }
+
+.icon-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- names, chips and dots ---------- */
+
+.pname {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  text-underline-offset: 3px;
+}
+
+.pname:hover { text-decoration-color: var(--accent); }
+
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--c);
+  flex: none;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--c, var(--accent)) 14%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--c, var(--accent)) 35%, transparent);
+  font-size: .88rem;
+}
+
+/* ---------- scripture references ----------
+   Any reference in the content (e.g. "Genesis 12–25") becomes one of these.
+   Tapping it opens the passage in the Bible panel. */
+
+.ref-link {
+  display: inline;
+  color: var(--gold);
+  font: inherit;
+  text-decoration: underline dotted;
+  text-decoration-color: color-mix(in srgb, var(--gold) 60%, transparent);
+  text-underline-offset: 3px;
+  white-space: nowrap;
+}
+
+.ref-link::before {
+  content: "";
+  display: inline-block;
+  width: .9em;
+  height: .9em;
+  margin-right: .25em;
+  vertical-align: -.1em;
+  background: currentColor;
+  -webkit-mask: var(--book-icon) center / contain no-repeat;
+  mask: var(--book-icon) center / contain no-repeat;
+}
+
+.ref-link:hover {
+  text-decoration-style: solid;
+  color: color-mix(in srgb, var(--gold) 80%, var(--ink));
+}
+
+.ref-link.is-open {
+  background: color-mix(in srgb, var(--gold) 16%, transparent);
+  border-radius: 4px;
+}
+
+:root {
+  --book-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 4.5A2.5 2.5 0 0 1 7.5 2H19v17H7.5A2.5 2.5 0 0 0 5 21.5v-17Z'/%3E%3Cpath d='M5 21.5A2.5 2.5 0 0 1 7.5 19H19v3H7.5'/%3E%3C/svg%3E");
+}
+
+/* ---------- footer ---------- */
+
+footer {
+  color: var(--muted);
+  font-size: .82rem;
+  padding-block: 0 40px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+}
+
+/* ---------- Jesus' family line ----------
+   Shown for people named in the genealogies of Matthew 1 and Luke 3. */
+
+.jline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--gold) 10%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--gold) 35%, transparent);
+  font-size: .88rem;
+}
+
+.jline.compact {
+  padding: 3px 8px;
+  font-size: .82rem;
+  justify-self: start;
+}
+
+.jline-tag {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.jline-mark {
+  color: var(--gold);
+  margin-right: 4px;
+}
+
+.jline p {
+  flex-basis: 100%;
+  margin: 2px 0 0;
+  color: var(--muted);
+}
+
+/* Small star after a name in a family tree */
+.jl-star {
+  color: var(--gold);
+  font-size: .8em;
+  margin-left: 3px;
+  cursor: help;
+}
+
+/* ---------- Hindi ----------
+   Devanagari joins letters, so spacing letters apart breaks words; it also
+   needs a little more line height. */
+:lang(hi) body { line-height: 1.6; }
+:lang(hi) h1,
+:lang(hi) .label,
+:lang(hi) .seg button,
+:lang(hi) .v { letter-spacing: 0; }
+:lang(hi) .label { font-size: .8rem; }

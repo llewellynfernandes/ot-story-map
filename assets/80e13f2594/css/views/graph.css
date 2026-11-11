@@ -1,0 +1,251 @@
+/* Connections view: a force-directed graph of people, like Obsidian's graph view. */
+
+.graph-tools {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.graph-tools .row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+  align-items: center;
+}
+
+.graph-tools .row > .label { min-width: 74px; }
+
+.graph-search {
+  flex: 1 1 220px;
+  min-width: 0;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+}
+
+.graph-tools .chip { cursor: pointer; }
+.graph-tools .chip[aria-pressed="false"] { background: transparent; color: var(--muted); }
+
+.ltype {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  font-size: .85rem;
+  cursor: pointer;
+}
+
+.ltype i {
+  display: inline-block;
+  width: 18px;
+  height: 0;
+  border-top: 2px solid var(--lc);
+}
+
+.ltype.dashed i { border-top-style: dashed; }
+.ltype.dotted i { border-top-style: dotted; border-top-width: 3px; }
+.ltype[aria-pressed="false"] { color: var(--muted); opacity: .6; }
+.ltype[aria-pressed="false"] i { border-top-color: var(--line); }
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .88rem;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.toggle input { accent-color: var(--accent); margin: 0; }
+
+/* The canvas */
+.graph-wrap {
+  position: relative;
+  height: max(460px, calc(100dvh - 300px));
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle, color-mix(in srgb, var(--ink) 9%, transparent) 1px, transparent 1.2px) 0 0 / 22px 22px,
+    var(--surface);
+  touch-action: none;
+}
+
+.graph-wrap svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.graph-wrap svg:active { cursor: grabbing; }
+
+.graph-wrap .link {
+  stroke: var(--lc);
+  stroke-opacity: .45;
+  fill: none;
+  transition: stroke-opacity .15s;
+}
+
+.graph-wrap .link.flow { stroke-dasharray: 4 4; }
+/* Met once, or linked by a prophecy: dotted, so they read as lighter links */
+.graph-wrap .link.crossed,
+.graph-wrap .link.prophesied { stroke-dasharray: 0.5 4.5; stroke-linecap: round; stroke-width: 2; }
+
+.graph-wrap .node circle {
+  fill: var(--c);
+  stroke: var(--surface);
+  stroke-width: 1.5;
+  cursor: pointer;
+  transition: opacity .15s;
+}
+
+.graph-wrap .node.hub circle {
+  fill: var(--surface);
+  stroke: var(--c);
+  stroke-width: 3;
+}
+
+.graph-wrap .node text {
+  font-family: var(--body);
+  font-size: 12.5px;
+  fill: var(--ink);
+  paint-order: stroke;
+  stroke: var(--surface);
+  stroke-width: 3.5px;
+  stroke-linejoin: round;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .15s;
+}
+
+.graph-wrap .node.hub text { font-family: var(--display); font-size: 14px; }
+
+/* Labels show for big nodes, when zoomed in, or for the highlighted group */
+.graph-wrap .node.major text,
+.graph-wrap.zoomed .node text,
+.graph-wrap .node.hi text { opacity: 1; }
+
+.graph-wrap.has-focus .node:not(.hi) { opacity: .14; }
+.graph-wrap.has-focus .link:not(.hi) { stroke-opacity: .05; }
+.graph-wrap.has-focus .link.hi { stroke-opacity: .9; stroke-width: 2; }
+
+.graph-wrap .node.sel circle {
+  stroke: var(--ink);
+  stroke-width: 2.5;
+}
+
+/* Zoom buttons */
+.graph-zoom {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  gap: 4px;
+}
+
+.graph-zoom .icon-btn {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+}
+
+/* Selected person card */
+.graph-card {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  width: min(340px, calc(100% - 20px));
+  max-height: calc(100% - 20px);
+  overflow: auto;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 10px 30px rgba(10, 14, 22, .15);
+  display: grid;
+  gap: 6px;
+}
+
+.graph-card h3 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 1.3rem;
+  margin: 0;
+}
+
+.graph-card .role { margin: 0; color: var(--muted); font-size: .92rem; }
+.graph-card ul { margin: 0; padding-left: 18px; font-size: .92rem; }
+.graph-card ul li::marker { color: var(--c); }
+/* Name bar with fold and close buttons */
+.graph-card .gc-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 2px;
+  margin: -4px -8px 0 0;
+}
+
+.graph-card .gc-title { flex: 1; min-width: 0; display: grid; gap: 2px; padding-top: 4px; }
+.graph-card .gc-fold svg { transition: transform .2s; }
+
+/* Folded: only the name bar shows, so the graph is free to move */
+.graph-card.folded { overflow: hidden; padding-block: 10px; cursor: pointer; }
+.graph-card.folded > :not(.gc-head) { display: none; }
+.graph-card.folded .gc-fold svg { transform: rotate(180deg); }
+
+@media (prefers-reduced-motion: reduce) {
+  .graph-card .gc-fold svg { transition: none; }
+}
+
+.graph-card .conn {
+  font-size: .85rem;
+  color: var(--muted);
+}
+
+.graph-card .actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  font-size: .9rem;
+}
+
+.graph-card .actions button { color: var(--accent); }
+
+.graph-hint {
+  position: absolute;
+  left: 12px;
+  bottom: 10px;
+  margin: 0;
+  font-size: .82rem;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.graph-stats { color: var(--muted); font-size: .85rem; margin-top: 8px; }
+
+@media (max-width: 640px) {
+  .graph-tools .row > .label { min-width: 0; width: 100%; }
+  /* Keep the top of the graph visible behind the card */
+  .graph-card { max-height: 55%; left: 8px; bottom: 8px; width: calc(100% - 16px); }
+  .graph-wrap { height: max(420px, calc(100dvh - 360px)); }
+}
+
+/* "Highlight Jesus' family line": gold rings and always-on labels */
+.graph-wrap.show-line .node.jl circle {
+  stroke: var(--gold);
+  stroke-width: 3.5;
+}
+
+.graph-wrap.show-line .node.jl text { opacity: 1; font-weight: 700; }
+
+.graph-wrap.show-line:not(.has-focus) .node:not(.jl):not(.hub) { opacity: .35; }

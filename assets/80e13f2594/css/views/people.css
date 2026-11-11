@@ -1,0 +1,100 @@
+/* People view */
+.filters {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+  margin-bottom:16px;
+}
+
+.filters input {
+  flex:1 1 200px;
+  min-width:0;
+  padding:9px 12px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--surface);
+  color:var(--ink);
+  font:inherit;
+}
+
+.filters .chip {
+  cursor:pointer;
+}
+
+.filters .chip[aria-pressed="false"] {
+  background:transparent;
+  color:var(--muted);
+}
+
+.cards {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+  gap:12px;
+}
+
+.card {
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:14px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  min-width:0;
+}
+
+.card:hover {
+  border-color:color-mix(in srgb,var(--c) 60%,var(--line));
+}
+
+.card .era-tag {
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.card h3 {
+  font-family:var(--display);
+  font-weight:400;
+  font-size:1.25rem;
+  margin:0;
+}
+
+.card .role {
+  color:var(--muted);
+  font-size:.92rem;
+  margin:0;
+}
+
+.card ul {
+  margin:2px 0 0;
+  padding-left:18px;
+  font-size:.93rem;
+}
+
+.card ul li::marker {
+  color:var(--c);
+}
+
+.ref {
+  color:var(--gold);
+  font-size:.85rem;
+  font-variant-numeric:tabular-nums;
+}
+
+.empty {
+  color:var(--muted);
+  padding:20px 0;
+}
+
+.card { cursor: pointer; text-align: left; }
+
+.card-name {
+  font: inherit;
+  text-align: left;
+}
+
+.card-name:focus-visible { outline-offset: 4px; }
+
+.card .ref { line-height: 1.6; }
